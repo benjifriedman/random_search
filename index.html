@@ -1,30 +1,246 @@
-<!doctype html><html class="no-js" lang="">
-<head>
+<!doctype html>
+	<html class="no-js" lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- 
+		<style>
+		html {
+			font-family: sans-serif;
+		}
 
-Random Search Letter Combinations
-by Benji Friedman
+		p {
+			text-align: center;
+		}
 
-                __
-               / _\ #
-               \c /  #
-               / \___ #
-               \`----`#==>  
-               |  \  #
-    ,%.-"""---'`--'\#_
-   %%/             |__`\
-  .%'\     |   \   /  //
-  ,%' >   .'----\ |  [/
-     < <<`       ||
-      `\\\       ||
-        )\\      )\
-^^^jgs^^"""^^^^^^""^^^^^^^^^^
 
-Note: if you're the kind of person that does "view:source", please feel free to contact me! I'm interested in collaborating on website / internet projects.  
+		.bold {
+			font-weight: bold;
+		}
 
-email me at benjifriedman[a]gmail[.]com
+		.selection {
+			text-align: left;
+		}
 
+		.radioSearch {
+			display: flex;
+			align-items: flex-start;
+			margin-bottom: 5px;
+		}
+
+		.radioSearch label {
+/*  margin-right: 14px;
+margin-left: 9px;*/
+margin: 0 6px;
+line-height: 38px;
+display: block;
+}
+
+.radioSearch input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+
+	border: 2px solid #999;
+	transition: 0.2s all linear;
+	margin-right: 20px;
+
+	position: relative;
+	top: 0;
+}
+
+.radioSearch input:checked {
+	border: 6px solid black;
+}
+
+</style>
+
+</head>
+<body>
+	
+	<div class="container">
+		<h3>Random Search Letter Combinations</h3>
+
+		<p class="bold selection">Search Engine:</p>
+
+		<div class="radioSearch">
+			<div>
+				<label>DDG</label>
+
+				<input type="radio" name="search" value="ddg">
+			</div>
+			<div>
+				<label>Bing</label>
+
+				<input type="radio" name="search" value="bing">
+			</div>
+			<div>
+				<label>Baidu</label>
+
+				<input type="radio" name="search" value="baidu">
+			</div>
+			<div>
+				<label>Google</label>
+
+				<input type="radio" name="search" value="google">
+			</div>
+			<div>
+				<label>Yahoo</label>
+
+				<input type="radio" name="search" value="yahoo" checked>
+			</div>
+			<div>
+				<label>Yandex</label>
+
+				<input type="radio" name="search" value="yandex">
+			</div>
+		</div>
+
+		<hr />
+
+		<p class="bold selection">Number of letters:</p>
+
+		<div class="radioSearch">
+			<div>
+				<label>3</label>
+				<input type="radio" name="num" value="3">
+
+			</div>
+			<div>
+				<label>5</label>
+				<input type="radio" name="num" value="5" checked>
+
+			</div>
+			<div>
+				<label>7</label>
+				<input type="radio" name="num" value="7">
+
+			</div>
+			<div>
+				<label>9</label>
+				<input type="radio" name="num" value="9">
+
+			</div>				
+		</div>
+
+
+<!-- 		
+<p class="bold selection">Number of results:</p>
+	<div>
+		<input type="Number" name="numberOfResults" value="10">
+</div> 
 -->
+<button onclick="run()" style="margin-top: 8px">Generate list</button>
+<button onclick ="reload()" style="margin-top:8px">Reload</button>
 
-<meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><style>html{font-family:sans-serif}p{text-align:center}.bold{font-weight:bold}.selection{text-align:left}.radioSearch{display:flex;align-items:flex-start;margin-bottom:5px}.radioSearch label{margin:0 6px;line-height:38px;display:block}.radioSearch input{-webkit-appearance:none;-moz-appearance:none;appearance:none;border-radius:50%;width:20px;height:20px;border:2px solid #999;transition:0.2s all linear;margin-right:20px;position:relative;top:0}.radioSearch input:checked{border:6px solid black}</style></head><body><div class="container"><h3>Random Search Letter Combinations</h3><p class="bold selection">Search Engine:</p><div class="radioSearch"><div> <label>DDG</label><input type="radio" name="search" value="ddg"></div><div> <label>Bing</label><input type="radio" name="search" value="bing"></div><div> <label>Baidu</label><input type="radio" name="search" value="baidu"></div><div> <label>Google</label><input type="radio" name="search" value="google"></div><div> <label>Yahoo</label><input type="radio" name="search" value="yahoo" checked></div><div> <label>Yandex</label><input type="radio" name="search" value="yandex"></div></div><hr /><p class="bold selection">Number of letters:</p><div class="radioSearch"><div> <label>3</label> <input type="radio" name="num" value="3"></div><div> <label>5</label> <input type="radio" name="num" value="5" checked></div><div> <label>7</label> <input type="radio" name="num" value="7"></div><div> <label>9</label> <input type="radio" name="num" value="9"></div></div><button onclick="run()" style="margin-top: 8px">Generate list</button> <button onclick ="reload()" style="margin-top:8px">Reload</button><div id="results"></div></div> <script type="text/javascript">var letterArray=["a","b","c","d","e","f","g","h","i","j","k","l","m","o","p","q","r","s","t","u","v","w","x","y","z"];var searchPrefixes={"Duck Duck Go":"https://duckduckgo.com/?q=","Bing":"https://www.bing.com/search?q=","Baidu":"https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=","Google":"https://www.google.com/search?q=","Yahoo":"https://search.yahoo.com/search?p=","Yandex":"https://yandex.com/search/?text="} function run(){var searchChoice=document.querySelector('input[name=search]:checked').value;var numChoice=document.querySelector('input[name=num]:checked').value;var searchPrefix="";switch(searchChoice){case'ddg':searchPrefix=searchPrefixes["Duck Duck Go"];console.log("Duck Duck Go selected") break;case'bing':searchPrefix=searchPrefixes["Bing"];break;case'baidu':searchPrefix=searchPrefixes["Baidu"];break;case'google':searchPrefix=searchPrefixes["Google"];break;case'yahoo':searchPrefix=searchPrefixes["Yahoo"];break;case'yandex':searchPrefix=searchPrefixes["Yandex"];break;} var results=[];for(var i=0;i<10;i++){var first,second,third,fourth,fifth,sixth,seventh,eighth,ninth;first=letterArray[Math.floor(Math.random()*letterArray.length)];second=letterArray[Math.floor(Math.random()*letterArray.length)];third=letterArray[Math.floor(Math.random()*letterArray.length)];fourth=letterArray[Math.floor(Math.random()*letterArray.length)];fifth=letterArray[Math.floor(Math.random()*letterArray.length)];sixth=letterArray[Math.floor(Math.random()*letterArray.length)];seventh=letterArray[Math.floor(Math.random()*letterArray.length)];eighth=letterArray[Math.floor(Math.random()*letterArray.length)];ninth=letterArray[Math.floor(Math.random()*letterArray.length)];var word="" if(numChoice=="3"){word=first+second+third;}else if(numChoice=="5"){word=first+second+third+fourth+fifth;}else if(numChoice=="7"){word=first+second+third+fourth+fifth+sixth+seventh;}else if(numChoice=="9"){word=first+second+third+fourth+fifth+sixth+seventh+eighth+ninth;} results.push(word);} var resultDisplay=document.querySelector('#results');var formattedEverything="";for(var i=0;i<10;i++){formattedEverything+="<p><a href='"+searchPrefix+""+results[i]+"' target='_blank'>"+results[i]+"</a></p>";} resultDisplay.innerHTML=formattedEverything;} function reload(){window.location.reload(false);}</script> </body></html>
+<div id="results"></div>
+</div>
+
+
+<script type="text/javascript">
+	var letterArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+    	//would be cool to include !@#$%^&*()_+ as an option
+
+    	//also numbers. even "number mode"
+
+    	var searchPrefixes = {
+    		"Duck Duck Go": "https://duckduckgo.com/?q=",
+    		"Bing": "https://www.bing.com/search?q=",
+    		"Baidu":"https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=",
+    		"Google":"https://www.google.com/search?q=",
+    		"Yahoo":"https://search.yahoo.com/search?p=",
+    		"Yandex":"https://yandex.com/search/?text="
+    	}
+
+
+    	function run() {
+
+    		var searchChoice = document.querySelector('input[name=search]:checked').value;
+
+    		var numChoice = document.querySelector('input[name=num]:checked').value;
+
+    		var searchPrefix = "";
+
+    		switch (searchChoice) {
+    			case 'ddg':
+    			searchPrefix = searchPrefixes["Duck Duck Go"];
+    			console.log("Duck Duck Go selected")
+    			break;
+    			case 'bing':
+    			searchPrefix = searchPrefixes["Bing"];
+    			break;
+    			case 'baidu':
+    			searchPrefix = searchPrefixes["Baidu"];
+    			break;    			
+    			case 'google':
+    			searchPrefix = searchPrefixes["Google"];
+    			break;    			
+    			case 'yahoo':
+    			searchPrefix = searchPrefixes["Yahoo"];
+    			break;    			
+    			case 'yandex':
+    			searchPrefix = searchPrefixes["Yandex"];
+    			break;    			
+    		}
+
+    		var results = [];
+
+    		for (var i=0; i <10; i++) {
+
+    			var first, second, third, fourth, fifth, sixth, seventh, eighth, ninth;
+
+    			first = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			second = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			third = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			fourth = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			fifth = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			sixth = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			seventh = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			eighth = letterArray[Math.floor(Math.random()*letterArray.length)];
+    			ninth = letterArray[Math.floor(Math.random()*letterArray.length)];
+
+    			var word = ""
+
+    			if (numChoice == "3") {
+    				word = first+second+third;
+    			} else if (numChoice == "5") {
+    				word = first+second+third+fourth+fifth;
+    			} else if (numChoice == "7") {
+    				word = first+second+third+fourth+fifth+sixth+seventh;
+    			} else if (numChoice == "9") {
+    				word = first+second+third+fourth+fifth+sixth+seventh+eighth+ninth;
+    			} 
+
+    			results.push(word);
+
+    			}//for loop
+
+    		//console.log(results);
+
+    		var resultDisplay = document.querySelector('#results');
+
+    		var formattedEverything = "";
+
+    		for (var i=0; i <10; i++) {
+
+    			formattedEverything += "<p><a href='" + searchPrefix + ""+ results[i] +"' target='_blank'>"+ results[i] +"</a></p>";
+
+    		}//for loop
+
+    		resultDisplay.innerHTML = formattedEverything;
+
+    	}//run function
+
+    	function reload() {
+    		window.location.reload(false);
+    	}//reload
+    </script>
+
+</body>
+</html>
