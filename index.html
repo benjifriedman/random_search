@@ -138,20 +138,22 @@ display: block;
 				<label>3</label>
 				<input type="radio" name="num" value="3">
 
+						</div>
+			<div>
+				<label>7</label>
+				<input type="radio" name="num" value="4">
+
+			</div>
+
 			</div>
 			<div>
 				<label>5</label>
 				<input type="radio" name="num" value="5" checked>
 
-			</div>
-			<div>
-				<label>7</label>
-				<input type="radio" name="num" value="7">
 
-			</div>
 			<div>
 				<label>9</label>
-				<input type="radio" name="num" value="9">
+				<input type="radio" name="num" value="6">
 
 			</div>				
 		</div>
@@ -221,7 +223,7 @@ display: block;
 
     		for (var i=0; i <10; i++) {
 
-    			var first, second, third, fourth, fifth, sixth, seventh, eighth, ninth;
+    			var first, second, third, fourth, fifth, sixth;
 
     			first = letterArray[Math.floor(Math.random()*letterArray.length)];
     			second = letterArray[Math.floor(Math.random()*letterArray.length)];
@@ -229,20 +231,17 @@ display: block;
     			fourth = letterArray[Math.floor(Math.random()*letterArray.length)];
     			fifth = letterArray[Math.floor(Math.random()*letterArray.length)];
     			sixth = letterArray[Math.floor(Math.random()*letterArray.length)];
-    			seventh = letterArray[Math.floor(Math.random()*letterArray.length)];
-    			eighth = letterArray[Math.floor(Math.random()*letterArray.length)];
-    			ninth = letterArray[Math.floor(Math.random()*letterArray.length)];
 
     			var word = ""
 
     			if (numChoice == "3") {
     				word = first+second+third;
+    			} else if (numChoice == "4") {
+    				word = first+second+third+fourth;
     			} else if (numChoice == "5") {
     				word = first+second+third+fourth+fifth;
-    			} else if (numChoice == "7") {
-    				word = first+second+third+fourth+fifth+sixth+seventh;
-    			} else if (numChoice == "9") {
-    				word = first+second+third+fourth+fifth+sixth+seventh+eighth+ninth;
+    			} else if (numChoice == "6") {
+    				word = first+second+third+fourth+fifth+sixth;
     			} 
 
     			results.push(word);
